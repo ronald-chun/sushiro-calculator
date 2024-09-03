@@ -1,11 +1,11 @@
 {
-    "name": "flutter_application_1",
-    "short_name": "flutter_application_1",
+    "name": "壽司郎計算機🧮",
+    "short_name": "壽司郎計算機🧮",
     "start_url": ".",
     "display": "standalone",
     "background_color": "#0175C2",
     "theme_color": "#0175C2",
-    "description": "A new Flutter project.",
+    "description": "計下係壽司郎食左幾多錢💰",
     "orientation": "portrait-primary",
     "prefer_related_applications": false,
     "icons": [
