@@ -73,6 +73,7 @@ class _SushiroViewState extends State<SushiroView> {
   List<Dish> _futureDish2 = [];
   // late Future<Map<dynamic, int>> _orderedDishes;
   Map<String, int> _orderedDishes2 = {};
+  bool _isExpended = true;
 
   @override
   void initState() {
@@ -305,12 +306,11 @@ class _SushiroViewState extends State<SushiroView> {
           //     ),
           //   ),
           // ),
-
-          Container(
-            // color: Colors.grey.shade900,
-            color: Theme.of(context).cardColor,
-            width: double.infinity,
-            child: Padding(
+          ExpansionTile(
+            title: Text('價目表🍽️🧾'),
+            initiallyExpanded : _isExpended,
+            children: [
+              Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: _futureDish2.isNotEmpty
                     ? Wrap(
@@ -350,21 +350,74 @@ class _SushiroViewState extends State<SushiroView> {
                             ),
                         ],
                       )
-                    : const Row(
+                    : Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           CircularProgressIndicator(),
                         ],
-                      )
-                // By default, show a loading spinner.
-                // return Row(
-                //   mainAxisAlignment: MainAxisAlignment.center,
-                //   children: [
-                //     const CircularProgressIndicator(),
-                //   ],
-                // );
-                ),
+                      ),
+              ),
+            ],
           ),
+          // Container(
+          //   // color: Colors.grey.shade900,
+          //   color: Theme.of(context).cardColor,
+          //   width: double.infinity,
+          //   child: Padding(
+          //       padding: const EdgeInsets.all(16.0),
+          //       child: _futureDish2.isNotEmpty
+          //           ? Wrap(
+          //               alignment: WrapAlignment.center,
+          //               spacing: 4, // gap between adjacent chips
+          //               runSpacing: 8, // gap between lines
+          //               children: [
+          //                 for (var dish in _futureDish2)
+          //                   Padding(
+          //                     padding:
+          //                         const EdgeInsets.symmetric(horizontal: 16),
+          //                     child: Column(
+          //                       mainAxisSize: MainAxisSize.min,
+          //                       children: [
+          //                         ElevatedButton(
+          //                           onPressed: () {
+          //                             dish.isNotFixedPrice
+          //                                 ? _displayTextInputDialog(
+          //                                     context, dish)
+          //                                 : _clickDish(dish.name);
+          //                           },
+          //                           style: ElevatedButton.styleFrom(
+          //                             shape: const CircleBorder(),
+          //                             padding: const EdgeInsets.all(20),
+          //                             backgroundColor: Color(
+          //                               int.parse(dish.color),
+          //                             ),
+          //                           ),
+          //                           child: Icon(Icons.circle_outlined,
+          //                               color: Colors.grey.shade100),
+          //                         ),
+          //                         Text(
+          //                           '${dish.name} - \$${dish.price != 0 ? dish.price.toString() : '???'}',
+          //                         )
+          //                       ],
+          //                     ),
+          //                   ),
+          //               ],
+          //             )
+          //           : const Row(
+          //               mainAxisAlignment: MainAxisAlignment.center,
+          //               children: [
+          //                 CircularProgressIndicator(),
+          //               ],
+          //             )
+          //       // By default, show a loading spinner.
+          //       // return Row(
+          //       //   mainAxisAlignment: MainAxisAlignment.center,
+          //       //   children: [
+          //       //     const CircularProgressIndicator(),
+          //       //   ],
+          //       // );
+          //       ),
+          // ),
           // Container(
           //   color: Colors.grey,
           //   width: double.infinity,
