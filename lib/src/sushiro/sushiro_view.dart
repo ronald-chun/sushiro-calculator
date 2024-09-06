@@ -4,9 +4,11 @@ import 'dart:convert';
 // import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:sushiro_calculator/src/settings/settings_view.dart';
 
 import 'dish.dart';
+import 'package:sushiro_calculator/src/settings/settings_view.dart';
+
+import 'package:flutter_expandable_fab/flutter_expandable_fab.dart';
 
 Future<List<Dish>> fetchDish() async {
   // const String _baseUrl = 'https://api.notion.com/v1/';
@@ -73,7 +75,7 @@ class _SushiroViewState extends State<SushiroView> {
   List<Dish> _futureDish2 = [];
   // late Future<Map<dynamic, int>> _orderedDishes;
   Map<String, int> _orderedDishes2 = {};
-  bool _isExpended = true;
+  bool _isExpended = false;
 
   @override
   void initState() {
@@ -239,6 +241,57 @@ class _SushiroViewState extends State<SushiroView> {
           ),
         ],
       ),
+      // floatingActionButton: _isExpended ? Container() : FloatingActionButton(
+      //     child: const Icon(Icons.add),
+      //     onPressed: () {
+      //       print('press');
+      //     }),
+      floatingActionButtonLocation: ExpandableFab.location,
+      floatingActionButton: _isExpended
+          ? Container()
+          : ExpandableFab(
+              openButtonBuilder: RotateFloatingActionButtonBuilder(
+                child: const Icon(Icons.add),
+                fabSize: ExpandableFabSize.small,
+              ),
+              type: ExpandableFabType.up,
+              overlayStyle: ExpandableFabOverlayStyle(
+                color: Colors.grey.shade800.withOpacity(0.4),
+              ),
+              initialOpen: false,
+              children: [
+                // FloatingActionButton.small(
+                //     heroTag: null, onPressed: () {}, child: null),
+                for (var dish in _futureDish2)
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 16),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        ElevatedButton(
+                          onPressed: () {
+                            dish.isNotFixedPrice
+                                ? _displayTextInputDialog(context, dish)
+                                : _clickDish(dish.name);
+                          },
+                          style: ElevatedButton.styleFrom(
+                            shape: const CircleBorder(),
+                            padding: const EdgeInsets.all(20),
+                            backgroundColor: Color(
+                              int.parse(dish.color),
+                            ),
+                          ),
+                          child: Icon(Icons.circle_outlined,
+                              color: Colors.grey.shade100),
+                        ),
+                        Text(
+                          '${dish.name} - \$${dish.price != 0 ? dish.price.toString() : '???'}',
+                        )
+                      ],
+                    ),
+                  ),
+              ],
+            ),
       body: Column(
         children: [
           // Container(
@@ -308,7 +361,8 @@ class _SushiroViewState extends State<SushiroView> {
           // ),
           ExpansionTile(
             title: Text('價目表🍽️🧾'),
-            initiallyExpanded : _isExpended,
+            initiallyExpanded: _isExpended,
+            onExpansionChanged: (val) => setState(() => _isExpended = val),
             children: [
               Padding(
                 padding: const EdgeInsets.all(16.0),
