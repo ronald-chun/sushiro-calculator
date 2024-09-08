@@ -250,6 +250,7 @@ class _SushiroViewState extends State<SushiroView> {
       floatingActionButton: _isExpended
           ? Container()
           : ExpandableFab(
+              distance: _futureDish2.length * 10,
               openButtonBuilder: RotateFloatingActionButtonBuilder(
                 child: const Icon(Icons.add),
                 fabSize: ExpandableFabSize.small,
@@ -258,38 +259,66 @@ class _SushiroViewState extends State<SushiroView> {
               overlayStyle: ExpandableFabOverlayStyle(
                 color: Colors.grey.shade800.withOpacity(0.4),
               ),
-              initialOpen: false,
+              initialOpen: true,
               children: [
-                // FloatingActionButton.small(
-                //     heroTag: null, onPressed: () {}, child: null),
                 for (var dish in _futureDish2)
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16),
-                    child: Column(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        ElevatedButton(
-                          onPressed: () {
-                            dish.isNotFixedPrice
-                                ? _displayTextInputDialog(context, dish)
-                                : _clickDish(dish.name);
-                          },
-                          style: ElevatedButton.styleFrom(
-                            shape: const CircleBorder(),
-                            padding: const EdgeInsets.all(20),
-                            backgroundColor: Color(
-                              int.parse(dish.color),
-                            ),
+                  FloatingActionButton.small(
+                    shape: const RoundedRectangleBorder(
+                      // <= Change BeveledRectangleBorder to RoundedRectangularBorder
+                      borderRadius: BorderRadius.only(
+                        topLeft: Radius.circular(30.0),
+                        topRight: Radius.circular(30.0),
+                        bottomLeft: Radius.circular(30.0),
+                        bottomRight: Radius.circular(30.0),
+                      ),
+                    ),
+                    onPressed: () {
+                      dish.isNotFixedPrice
+                          ? _displayTextInputDialog(context, dish)
+                          : _clickDish(dish.name);
+                    },
+                    backgroundColor: Color(int.parse(dish.color)),
+                    child: ColoredBox(
+                      color: const Color.fromARGB(173, 255, 255, 255),
+                      child: Padding(
+                        padding: const EdgeInsets.all(2),
+                        child: Text(
+                          dish.name.replaceAll('碟', '').trim(),
+                          style: TextStyle(
+                            color: Theme.of(context).primaryColor,
                           ),
-                          child: Icon(Icons.circle_outlined,
-                              color: Colors.grey.shade100),
                         ),
-                        Text(
-                          '${dish.name} - \$${dish.price != 0 ? dish.price.toString() : '???'}',
-                        )
-                      ],
+                      ),
                     ),
                   ),
+                // for (var dish in _futureDish2)
+                //   Padding(
+                //     padding: const EdgeInsets.symmetric(horizontal: 16),
+                //     child: Column(
+                //       mainAxisSize: MainAxisSize.min,
+                //       children: [
+                //         ElevatedButton(
+                //           onPressed: () {
+                //             dish.isNotFixedPrice
+                //                 ? _displayTextInputDialog(context, dish)
+                //                 : _clickDish(dish.name);
+                //           },
+                //           style: ElevatedButton.styleFrom(
+                //             shape: const CircleBorder(),
+                //             padding: const EdgeInsets.all(20),
+                //             backgroundColor: Color(
+                //               int.parse(dish.color),
+                //             ),
+                //           ),
+                //           child: Icon(Icons.circle_outlined,
+                //               color: Colors.grey.shade100),
+                //         ),
+                //         Text(
+                //           '${dish.name} - \$${dish.price != 0 ? dish.price.toString() : '???'}',
+                //         )
+                //       ],
+                //     ),
+                //   ),
               ],
             ),
       body: Column(
@@ -360,7 +389,7 @@ class _SushiroViewState extends State<SushiroView> {
           //   ),
           // ),
           ExpansionTile(
-            title: Text('價目表🍽️🧾'),
+            title: const Text('價目表🍽️🧾'),
             initiallyExpanded: _isExpended,
             onExpansionChanged: (val) => setState(() => _isExpended = val),
             children: [
@@ -404,7 +433,7 @@ class _SushiroViewState extends State<SushiroView> {
                             ),
                         ],
                       )
-                    : Row(
+                    : const Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           CircularProgressIndicator(),
