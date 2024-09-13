@@ -76,6 +76,7 @@ class _SushiroViewState extends State<SushiroView> {
   // late Future<Map<dynamic, int>> _orderedDishes;
   Map<String, int> _orderedDishes2 = {};
   bool _isExpended = false;
+  bool _isInit = true;
 
   @override
   void initState() {
@@ -259,7 +260,7 @@ class _SushiroViewState extends State<SushiroView> {
               overlayStyle: ExpandableFabOverlayStyle(
                 color: Colors.grey.shade800.withOpacity(0.4),
               ),
-              initialOpen: true,
+              initialOpen: _isInit,
               children: [
                 for (var dish in _futureDish2)
                   FloatingActionButton.small(
@@ -391,7 +392,10 @@ class _SushiroViewState extends State<SushiroView> {
           ExpansionTile(
             title: const Text('價目表🍽️🧾'),
             initiallyExpanded: _isExpended,
-            onExpansionChanged: (val) => setState(() => _isExpended = val),
+            onExpansionChanged: (val) => setState(() {
+              _isExpended = val;
+              _isInit = false;
+            }),
             children: [
               Padding(
                 padding: const EdgeInsets.all(16.0),
