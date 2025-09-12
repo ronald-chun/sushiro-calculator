@@ -23,7 +23,7 @@ Future<List<Dish>> fetchDish() async {
     //   },
     // );
     final response = await http.post(
-      Uri.parse('https://notion-cors.ronaldchunyin.workers.dev/'),
+      Uri.parse('https://notion-cors.ronald-chun.com'),
     );
 
     if (response.statusCode == 200) {
