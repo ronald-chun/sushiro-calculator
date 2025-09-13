@@ -31,6 +31,11 @@ flutter:
   # Enable generation of localized Strings from arb files.
   generate: true
 
+  l10n:
+    arb-dir: lib/l10n
+    template-arb-file: app_en.arb
+    output-localization-file: app_localizations.dart
+    
   assets:
     # Add assets from the images directory to the application.
     - assets/images/
